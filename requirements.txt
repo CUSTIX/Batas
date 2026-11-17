@@ -3,4 +3,4 @@ Django==5.2.19
 psycopg[binary]==3.3.8
 gunicorn==26.2.0
 whitenoise==6.12.0
-pgvector==0.4.1  # VectorField for Postgres + pgvector (embeddings are optional, see docs)
+pgvector==0.5.1  # VectorField for Postgres + pgvector (embeddings are optional, see docs)

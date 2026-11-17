@@ -1,0 +1,16 @@
+{% extends "core/base.html" %}
+{% block title %}Browse the law{% endblock %}
+{% block content %}
+<section class="browse">
+  <h1>Browse the law</h1>
+  <p class="lede">Every article Batas can cite. The Labor Code uses its original article numbers (the ones most guides and decisions still use).</p>
+  {% for s in sources %}
+    <details class="browse__src"{% if forloop.first %} open{% endif %}>
+      <summary><span>{{ s.title }}</span> <small>{{ s.citation }} · {{ s.articles.all|length }} {% if s.short_label == 'Art.' %}articles{% else %}sections{% endif %}</small></summary>
+      <ul class="browse__list">
+        {% for a in s.articles.all %}<li><a href="{% url 'laws:article' s.slug a.number %}"><span class="cite cite--static">{{ s.short_label }} {{ a.number }}</span> {{ a.heading }}</a></li>{% endfor %}
+      </ul>
+    </details>
+  {% endfor %}
+</section>
+{% endblock %}

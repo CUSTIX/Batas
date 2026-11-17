@@ -1,6 +1,6 @@
 # Runtime dependencies (installed in every image, including production)
 Django==5.2.19
-psycopg[binary]==3.3.8
+psycopg[binary]==3.3.9
 gunicorn==26.2.0
 whitenoise==6.12.0
 pgvector==0.4.1  # VectorField for Postgres + pgvector (embeddings are optional, see docs)

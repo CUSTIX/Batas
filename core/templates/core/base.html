@@ -1,11 +1,13 @@
-{% load static %}<!doctype html>
+{% load static batas %}<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block title %}Batas{% endblock %} · Batas</title>
   <meta name="description" content="{% block description %}Ask about Philippine labor law and get an answer that cites the Labor Code article it comes from.{% endblock %}">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+  <meta name="theme-color" content="#1e2a78">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&display=swap">
   <link rel="stylesheet" href="{% static 'core/site.css' %}">
   <link rel="icon" href="{% static 'core/favicon.svg' %}" type="image/svg+xml">
 </head>
@@ -16,18 +18,21 @@
     <a class="brand" href="{% url 'qa:ask' %}"><span class="brand__mark" aria-hidden="true">§</span> Batas</a>
     <nav aria-label="Main">
       <a href="{% url 'qa:ask' %}"{% if request.resolver_match.url_name == 'ask' %} aria-current="page"{% endif %}>Ask</a>
-      <a href="{% url 'laws:index' %}"{% if request.resolver_match.app_name == 'laws' %} aria-current="page"{% endif %}>Browse the law</a>
+      <a href="{% url 'laws:index' %}"{% if request.resolver_match.app_name == 'laws' %} aria-current="page"{% endif %}>Browse</a>
       <a href="{% url 'qa:about' %}"{% if request.resolver_match.url_name == 'about' %} aria-current="page"{% endif %}>How it works</a>
     </nav>
   </div>
 </header>
-<main id="main" class="wrap">
-{% block content %}{% endblock %}
+<main id="main">
+{% block main %}<div class="wrap">{% block content %}{% endblock %}</div>{% endblock %}
 </main>
 <footer class="foot">
-  <div class="wrap">
-    <p><strong>Not legal advice.</strong> Batas quotes the law and explains it in plain words. For your specific case, ask the DOLE hotline 1349 or a lawyer.</p>
-    <p>Law text: Labor Code (PD 442, as amended) via ChanRobles; PD 851, MO 28, RA 11210 and RA 8187 via The LawPhil Project (Arellano Law Foundation). Philippine statutes are not subject to copyright (RA 8293, Sec. 176).</p>
+  <div class="wrap foot__in">
+    <div>
+      <p class="foot__brand"><span class="brand__mark" aria-hidden="true">§</span> Batas</p>
+      <p><strong>Not legal advice.</strong> Batas quotes the law and explains it in plain words. For your specific case, call the DOLE hotline 1349 or ask a lawyer.</p>
+    </div>
+    <p class="foot__src">Law text: Labor Code (PD 442, as amended) via ChanRobles; PD 851, MO 28, RA 11210 and RA 8187 via The LawPhil Project (Arellano Law Foundation). Philippine statutes are not subject to copyright (RA 8293, Sec. 176).</p>
   </div>
 </footer>
 <script src="{% static 'core/app.js' %}" defer></script>

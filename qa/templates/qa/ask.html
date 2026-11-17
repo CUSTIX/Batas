@@ -1,23 +1,30 @@
 {% extends "core/base.html" %}
+{% load batas %}
 {% block title %}{% if result %}{{ result.question }}{% else %}Ask the Labor Code{% endif %}{% endblock %}
 {% block content %}
 <section class="ask{% if result %} ask--compact{% endif %}">
   {% if not result %}
-    <p class="eyebrow">Philippine labor law, with citations</p>
+    <p class="eyebrow">{% icon "seal" %} Philippine labor law, with citations</p>
     <h1>Ask the Labor Code.</h1>
     <p class="lede">Type a question in English or Filipino. Every answer points to the article it comes from, so you can read the law yourself.</p>
   {% endif %}
   <form method="get" action="{% url 'qa:ask' %}" class="ask__form" role="search" data-ask>
+    {% icon "search" %}
     <label for="{{ form.q.id_for_label }}" class="sr">Your question</label>
     {{ form.q }}
-    <button type="submit" class="btn" data-submit>Ask</button>
+    <button type="submit" class="btn" data-submit>Ask {% icon "arrow-right" %}</button>
   </form>
   {% if form.errors %}<p class="error" role="alert">Please type a question of at least 3 characters.</p>{% endif %}
   {% if limited %}<p class="error" role="alert">That's a lot of questions in one hour. Please try again in a while.</p>{% endif %}
   {% if not result %}
     <ul class="examples" aria-label="Example questions">
-      {% for e in examples %}<li><a href="?q={{ e|urlencode }}">{{ e }}</a></li>{% endfor %}
+      {% for e in examples %}<li><a href="?q={{ e|urlencode }}">{% icon "spark" %}{{ e }}</a></li>{% endfor %}
     </ul>
+    <div class="facts">
+      <div class="fact"><div class="fact__icon">{% icon "book" %}</div><b>The law itself</b><span>The Labor Code, the 13th month pay law, and the maternity and paternity leave laws.</span></div>
+      <div class="fact"><div class="fact__icon">{% icon "shield" %}</div><b>Checked citations</b><span>Every cited article was actually retrieved. Made-up citations are removed.</span></div>
+      <div class="fact"><div class="fact__icon">{% icon "gauge" %}</div><b>Measured search</b><span>A fixed question set scores retrieval on every change, so it can't quietly get worse.</span></div>
+    </div>
   {% endif %}
 </section>
 
@@ -25,16 +32,16 @@
 <section class="result" aria-live="polite">
   <div class="result__head">
     <h1 class="result__q">{{ result.question }}</h1>
-    <span class="badge">{% if result.mode == 'ai' %}Answer written by AI from the articles below{% elif result.mode == 'passages' %}Matching text of the law{% else %}No match{% endif %}</span>
+    <span class="badge">{% if result.mode == 'ai' %}{% icon "spark" %} AI answer from the articles below{% elif result.mode == 'passages' %}{% icon "quote" %} Matching text of the law{% else %}No match{% endif %}</span>
   </div>
   {% if result.notice %}<p class="notice">{{ result.notice }}</p>{% endif %}
 
   {% if result.mode == 'ai' %}
-    <div class="answer">{% for s in result.segments %}{% if s.cite %}<a class="cite" href="#{{ s.anchor }}">{{ s.cite }}</a>{% else %}{{ s.text|linebreaksbr }}{% endif %}{% endfor %}</div>
+    <div class="answer"><div class="answer__label">{% icon "spark" %} Answer</div>{% for s in result.segments %}{% if s.cite %}<a class="cite" href="#{{ s.anchor }}">{{ s.cite }}</a>{% else %}{{ s.text|linebreaksbr }}{% endif %}{% endfor %}</div>
   {% endif %}
 
   {% if result.sources %}
-    <h2 class="sources__title">{% if result.mode == 'ai' %}Sources{% else %}Most relevant articles{% endif %}</h2>
+    <h2 class="sources__title">{% icon "layers" %} {% if result.mode == 'ai' %}Sources{% else %}Most relevant articles{% endif %}</h2>
     <ol class="sources">
       {% for c in result.sources %}
         <li class="source" id="{{ c.anchor }}">
@@ -44,13 +51,13 @@
           </div>
           {% if c.path %}<p class="source__path">{{ c.source_title }} · {{ c.path }}</p>{% else %}<p class="source__path">{{ c.source_title }}</p>{% endif %}
           <blockquote class="law">{{ c.quote }}</blockquote>
-          <p class="source__foot"><a href="{{ c.article_url }}">Read the full {{ c.label }}</a>
+          <p class="source__foot"><a href="{{ c.article_url }}">Read the full {{ c.label }} {% icon "arrow-right" %}</a>
             <span class="found">Found by {{ c.found_by|join:" and " }}</span></p>
         </li>
       {% endfor %}
     </ol>
   {% endif %}
-  <p class="retrieval">Search: {% if result.retrieval == 'hybrid' %}keywords + meaning (hybrid){% else %}keywords (BM25){% endif %}{% if not ai_enabled %} · AI answers are off on this server{% endif %}.</p>
+  <p class="retrieval">{% icon "search" %} Search: {% if result.retrieval == 'hybrid' %}keywords + meaning (hybrid){% else %}keywords (BM25){% endif %}{% if not ai_enabled %} · AI answers are off on this server{% endif %}.</p>
 </section>
 {% endif %}
 {% endblock %}

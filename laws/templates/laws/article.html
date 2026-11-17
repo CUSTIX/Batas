@@ -1,12 +1,13 @@
 {% extends "core/base.html" %}
+{% load batas %}
 {% block title %}{{ article.label }}. {{ article.heading }}{% endblock %}
 {% block description %}{{ article.label }} ({{ article.source.title }}): {{ article.heading }}.{% endblock %}
 {% block content %}
 <article class="statute">
-  <p class="crumbs"><a href="{% url 'laws:index' %}">Browse the law</a> · {{ article.source.title }}{% if article.path %} · {{ article.path }}{% endif %}</p>
+  <p class="crumbs"><a href="{% url 'laws:index' %}">← Browse the law</a> · {{ article.source.title }}{% if article.path %} · {{ article.path }}{% endif %}</p>
   <h1><span class="cite cite--static">{{ article.label }}</span> {{ article.heading }}</h1>
   <div class="law law--full">{{ article.text|linebreaks }}</div>
-  <p class="statute__src">{{ article.source.citation }}. Text from <a href="{{ article.source.url }}" rel="noopener" target="_blank">the published source</a>. Later laws may have amended this article; check the latest version before relying on it.</p>
-  <p><a class="btn btn--ghost" href="{% url 'qa:ask' %}?q={{ article.heading|urlencode }}">Ask about this topic</a></p>
+  <p class="statute__src">{{ article.source.citation }}. Text from <a href="{{ article.source.url }}" rel="noopener" target="_blank">the published source {% icon "external" %}</a>. Later laws may have amended this article; check the latest version before relying on it.</p>
+  <p><a class="btn btn--ghost" href="{% url 'qa:ask' %}?q={{ article.heading|urlencode }}">{% icon "spark" %} Ask about this topic</a></p>
 </article>
 {% endblock %}

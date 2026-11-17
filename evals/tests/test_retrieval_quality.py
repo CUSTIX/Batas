@@ -25,3 +25,24 @@ def test_question_set_is_well_formed():
     assert len(cases) >= 40
     assert all(c["q"].strip() and c["expect"] for c in cases)
     assert len({c["q"] for c in cases}) == len(cases), "duplicate questions"
+
+
+# The held-out set is a regression floor only. Never add expansions or tweaks just to pass it;
+# that would turn it into a second tuning set. Measured 75% / 0.68 when it was written.
+MIN_HELDOUT_RECALL_AT_5 = 0.70
+MIN_HELDOUT_MRR = 0.60
+
+
+@pytest.mark.django_db
+def test_heldout_questions_stay_above_their_floor():
+    from evals.services import HELDOUT
+
+    report = evaluate(selectors.keyword_search, k=5, cases=load_cases(HELDOUT))
+    assert report.recall >= MIN_HELDOUT_RECALL_AT_5, f"held-out recall@5 {report.recall:.0%}"
+    assert report.mrr >= MIN_HELDOUT_MRR, f"held-out MRR {report.mrr:.2f}"
+
+
+def test_heldout_and_tuning_sets_do_not_overlap():
+    from evals.services import HELDOUT
+
+    assert not {c["q"] for c in load_cases()} & {c["q"] for c in load_cases(HELDOUT)}

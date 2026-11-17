@@ -21,16 +21,19 @@ build and run. **Not legal advice.**
 - **Retrieval quality is measured in CI.** 46 real questions (English and Filipino) with the
   article that answers each. The build fails if recall@5 drops below 95% or MRR below 0.80.
 
-Current scores (keyword retrieval, 46 questions):
+Current scores (keyword retrieval only, no AI):
 
-| Metric | Score |
-|---|---|
-| recall@5 (right article in the top 5) | 100% |
-| MRR (1 / rank of the right article) | 0.89 |
+| Question set | Questions | recall@5 | MRR |
+|---|---|---|---|
+| Tuning set (`evals/questions.json`) | 46 | 100% | 0.89 |
+| Held-out set (`evals/heldout.json`) | 20 | 75% | 0.68 |
 
-The plain-language word map (for example *sahod* → wage, *tanggal* → dismissal, *endo* →
-labor-only contracting) and this question set were developed together, so treat the scores as a
-regression gate, not as proof of performance on unseen questions.
+recall@5: share of questions whose right article is in the top 5. MRR: average of 1 / rank of
+the right article. The plain-language word map (for example *sahod* → wage, *tanggal* →
+dismissal, *endo* → labor-only contracting) was developed against the tuning set, so its score is
+a regression gate. The held-out set was written afterwards and is never tuned on; it is the honest
+estimate for new questions. Its misses ("managers" vs "managerial employees", *sakit* vs
+"disease") are what the optional meaning search is for.
 
 ## Quickstart
 
@@ -58,6 +61,7 @@ docker compose run --rm web python manage.py embed_corpus
 docker compose run --rm web pytest                          # tests, including the quality gate
 docker compose run --rm web ruff check .
 docker compose run --rm web python manage.py eval_retrieval --verbose   # per-question ranks
+docker compose run --rm web python manage.py eval_retrieval --set heldout
 docker compose run --rm web python manage.py load_corpus    # idempotent; runs on every start
 docker compose run --rm web python manage.py embed_corpus   # needs GEMINI_API_KEY; resumable
 docker compose run --rm web python manage.py build_corpus   # re-download and re-parse the laws

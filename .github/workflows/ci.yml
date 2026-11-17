@@ -50,6 +50,7 @@ jobs:
           python manage.py migrate --noinput
           python manage.py load_corpus
           python manage.py eval_retrieval
+          python manage.py eval_retrieval --set heldout
       - name: Deploy checks
         env:
           DJANGO_HTTPS: "true"

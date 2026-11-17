@@ -13,6 +13,8 @@ from pathlib import Path
 from django.conf import settings
 
 CASES = Path(settings.BASE_DIR) / "evals" / "questions.json"
+# Written after tuning and never tuned on: the honest estimate for new questions.
+HELDOUT = Path(settings.BASE_DIR) / "evals" / "heldout.json"
 
 
 @dataclass

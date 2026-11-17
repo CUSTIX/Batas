@@ -1,0 +1,22 @@
+[
+  {"q": "Are managers entitled to overtime pay?", "expect": ["Art. 82"]},
+  {"q": "Do hospital nurses have shorter working hours?", "expect": ["Art. 83"]},
+  {"q": "Where should my wages be paid?", "expect": ["Art. 104"]},
+  {"q": "Can my salary be given to someone else instead of me?", "expect": ["Art. 105"]},
+  {"q": "Can the company force me to buy from its store?", "expect": ["Art. 112"]},
+  {"q": "Does my workplace need a first aid kit?", "expect": ["Art. 156"]},
+  {"q": "Must the company provide free medical and dental services?", "expect": ["Art. 157"]},
+  {"q": "Is the principal liable if the contractor doesn't pay its workers?", "expect": ["Art. 109", "Art. 106"]},
+  {"q": "What are unfair labor practices of an employer?", "expect": ["Art. 248"]},
+  {"q": "Can my boss stop me from joining a union?", "expect": ["Art. 248", "Art. 243"]},
+  {"q": "What is a lockout?", "expect": ["Art. 212", "Art. 263"]},
+  {"q": "When is a strike prohibited?", "expect": ["Art. 264", "Art. 263"]},
+  {"q": "Who resolves grievances under the collective bargaining agreement?", "expect": ["Art. 261", "Art. 260"]},
+  {"q": "Can a 16-year-old work in a dangerous job?", "expect": ["Art. 139"]},
+  {"q": "What happens to employees if the business closes down?", "expect": ["Art. 283"]},
+  {"q": "Can I be let go while on probation?", "expect": ["Art. 281"]},
+  {"q": "Can I be punished for filing a complaint about my wages?", "expect": ["Art. 118"]},
+  {"q": "Who counts as a learner?", "expect": ["Art. 73"]},
+  {"q": "What is an apprenticeship?", "expect": ["Art. 58"]},
+  {"q": "Puwede bang tanggalin ang empleyado dahil sa sakit?", "expect": ["Art. 284"]}
+]

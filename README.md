@@ -4,7 +4,8 @@
 *Batas* is Filipino for "law".
 
 Retrieval-augmented generation (RAG) over the Labor Code of the Philippines (PD 442, as amended),
-the 13th Month Pay Law (PD 851) and its rules, and Memorandum Order No. 28. Questions in English,
+the 13th Month Pay Law (PD 851) and its rules, Memorandum Order No. 28, the 105-Day Expanded
+Maternity Leave Law (RA 11210) and the Paternity Leave Act (RA 8187). Questions in English,
 Filipino or Taglish.
 
 Portfolio project. Django 5.2, PostgreSQL 17 with pgvector, Docker Compose, GitHub Actions. Free to
@@ -18,15 +19,15 @@ build and run. **Not legal advice.**
   are removed; if none is left, the answer is not shown and the law text is shown instead.
 - **It works without AI.** No API key: keyword retrieval (BM25) and the matching sentences of the
   law, quoted word for word. With a key: hybrid retrieval and a short plain-language answer.
-- **Retrieval quality is measured in CI.** 46 real questions (English and Filipino) with the
+- **Retrieval quality is measured in CI.** 49 real questions (English and Filipino) with the
   article that answers each. The build fails if recall@5 drops below 95% or MRR below 0.80.
 
 Current scores (keyword retrieval only, no AI):
 
 | Question set | Questions | recall@5 | MRR |
 |---|---|---|---|
-| Tuning set (`evals/questions.json`) | 46 | 100% | 0.89 |
-| Held-out set (`evals/heldout.json`) | 20 | 75% | 0.68 |
+| Tuning set (`evals/questions.json`) | 49 | 100% | 0.87 |
+| Held-out set (`evals/heldout.json`) | 20 | 75% | 0.65 |
 
 recall@5: share of questions whose right article is in the top 5. MRR: average of 1 / rank of
 the right article. The plain-language word map (for example *sahod* → wage, *tanggal* →
@@ -106,14 +107,15 @@ question ──► expand plain/Filipino words ──► BM25 over Postgres-stem
 ## Limits
 
 - The Labor Code text is the amended version with the original article numbers (still the most
-  cited). Later separate laws (for example the Expanded Maternity Leave Law, the Kasambahay Law,
-  current minimum wages) are not included yet.
+  cited). Some later laws are included (RA 11210, RA 8187) and the answer prefers them over the
+  Labor Code; others are not yet (for example the Kasambahay Law, solo parent leave and
+  current minimum wages).
 - Articles 136 and 295 are missing from the source pages.
 
 ## Sources and licenses
 
-- Labor Code text via [ChanRobles](https://chanrobles.com/legal4labor.htm); PD 851, its rules and
-  MO 28 via [The LawPhil Project](https://lawphil.net) (Arellano Law Foundation).
+- Labor Code text via [ChanRobles](https://chanrobles.com/legal4labor.htm); PD 851, its rules,
+  MO 28, RA 11210 and RA 8187 via [The LawPhil Project](https://lawphil.net) (Arellano Law Foundation).
 - Philippine statutes are not subject to copyright (RA 8293, Sec. 176). Only the law text is
   stored, with a link to the page it came from.
 - Code: MIT License, see [LICENSE](LICENSE).

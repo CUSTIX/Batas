@@ -5,14 +5,14 @@
   <h1>How Batas answers</h1>
   <p class="lede">Batas is retrieval-augmented generation (RAG) over Philippine labor law. It looks up the articles first, then answers only from them, and shows them to you.</p>
   <ol class="steps">
-    <li><strong>Find.</strong> Your question is matched against about 600 passages of the Labor Code, PD 851 and its rules, and MO 28. Keyword search (BM25 over stemmed words) finds exact legal terms; when embeddings are on, a meaning search finds articles that use different words. Plain or Filipino words such as <em>sahod</em>, <em>tanggal</em> or <em>endo</em> are mapped to the terms the law uses.</li>
+    <li><strong>Find.</strong> Your question is matched against about 650 passages of the Labor Code, PD 851 and its rules, MO 28, and the maternity (RA 11210) and paternity (RA 8187) leave laws. Keyword search (BM25 over stemmed words) finds exact legal terms; when embeddings are on, a meaning search finds articles that use different words. Plain or Filipino words such as <em>sahod</em>, <em>tanggal</em> or <em>endo</em> are mapped to the terms the law uses.</li>
     <li><strong>Answer.</strong> With an AI key, Gemini gets the question and only the top articles, and must cite each claim as <span class="cite cite--static">Art. 95</span>. Without a key, Batas quotes the most relevant sentences instead.</li>
     <li><strong>Check.</strong> Every citation in an AI answer is matched against the articles it was given. Made-up citations are removed; an answer with none left is not shown.</li>
     <li><strong>Measure.</strong> A fixed set of questions with known answers is scored on every change (recall and rank of the right article), so a change that makes search worse fails the build.</li>
   </ol>
   <h2>Limits</h2>
   <ul>
-    <li>The Labor Code text is the amended version with original article numbers. Some rules (for example amounts, maternity leave, kasambahay) were later changed by separate laws that are not included yet.</li>
+    <li>The Labor Code text is the amended version with original article numbers. The maternity and paternity leave laws are included and take precedence; other later laws (for example kasambahay, solo parent leave, current minimum wages) are not yet.</li>
     <li>Articles 136 and 295 are missing from the source pages and so are not searchable.</li>
     <li>This is a portfolio project and not legal advice.</li>
   </ul>

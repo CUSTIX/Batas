@@ -39,6 +39,8 @@ EXPANSIONS: dict[str, str] = {
     "pregnan": "maternity leave",
     "buntis": "maternity leave",
     "maternity": "maternity leave",
+    "paternity": "paternity leave",
+    "tatay": "paternity leave",
     "probation": "probationary employment",
     "regularization": "regular employment",
     "contractual": "regular casual employment contractor",

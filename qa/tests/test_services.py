@@ -100,3 +100,17 @@ def test_weak_keyword_matches_are_left_out():
     # ("Family Planning Services; Incentives") is a borderline match and may stay.
     assert not {"Art. 287", "Art. 294", "Art. 133"} & set(labels)
     assert len(labels) <= 2
+
+
+def test_republic_act_citations_are_recognized():
+    segments, kept, dropped = services.segment(
+        "105 days [RA 11210 Sec. 5]; 7 days [RA 8187 Sec. 2].",
+        {"RA 11210 Sec. 5", "RA 8187 Sec. 2"},
+    )
+    assert (kept, dropped) == (2, 0)
+
+
+@pytest.mark.django_db
+def test_maternity_question_finds_the_expanded_law():
+    labels = [c.label for c in services.answer("How many days of maternity leave?").sources]
+    assert any(label.startswith("RA 11210") for label in labels), labels

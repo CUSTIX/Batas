@@ -21,17 +21,21 @@ from qa.llm import Gemini, LLMError
 log = logging.getLogger(__name__)
 
 MAX_ARTICLES = 4
-CITATION = re.compile(r"\[((?:Art\.|PD 851 Rules Sec\.|PD 851 Sec\.|MO)\s*[\dA-Z-]+)\]")
+CITATION = re.compile(
+    r"\[((?:Art\.|PD 851 Rules Sec\.|PD 851 Sec\.|MO|RA \d+ Sec\.)\s*[\dA-Z-]+)\]"
+)
 NOT_COVERED = "NOT_COVERED"
 
 SYSTEM = """You answer questions about Philippine labor law for workers and small employers.
 Rules:
 - Use ONLY the numbered sources given. If they don't answer the question, reply exactly NOT_COVERED.
 - Cite every claim with the source's label in square brackets, exactly as given, e.g. [Art. 95].
-- Plain language, at most 5 short sentences or a short list. No preamble.
-- Answer in the language of the question (English or Filipino/Taglish).
+- When a Republic Act (RA) source and a Labor Code article disagree, the RA is the later law and
+  wins: answer from the RA and say the Labor Code figure is outdated.
 - Older amounts or rules in the sources may have been changed by later laws: say so briefly when a
   source shows a fixed peso amount or a rule known to be amended.
+- Plain language, at most 5 short sentences or a short list. No preamble.
+- Answer in the language of the question (English or Filipino/Taglish).
 - You are not a lawyer; don't give advice about a specific case."""
 
 

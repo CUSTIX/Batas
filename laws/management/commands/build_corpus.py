@@ -200,8 +200,61 @@ def parse_sections(
     return out
 
 
+# Later laws that change Labor Code rules people ask about. Sections without a printed heading get
+# one here (the text itself is never edited).
+ACTS = [
+    {
+        "slug": "ra-11210",
+        "title": "105-Day Expanded Maternity Leave Law",
+        "citation": "Republic Act No. 11210 (2019)",
+        "short_label": "RA 11210 Sec.",
+        "url": "https://lawphil.net/statutes/repacts/ra2019/ra_11210_2019.html",
+        "headings": {},
+    },
+    {
+        "slug": "ra-8187",
+        "title": "Paternity Leave Act of 1996",
+        "citation": "Republic Act No. 8187 (1996)",
+        "short_label": "RA 8187 Sec.",
+        "url": "https://lawphil.net/statutes/repacts/ra1996/ra_8187_1996.html",
+        "headings": {
+            "2": "Paternity leave of seven days with full pay",
+            "4": "Rules and regulations",
+            "5": "Penalties",
+        },
+    },
+]
+
+
+def parse_act(lines: list[str], act: dict) -> list[dict]:
+    """Sections of a Republic Act as published on LawPhil, up to the signature block."""
+    out: list[dict] = []
+    for line in lines:
+        if line.startswith(("Approved", "This Act which is a consolidation", "(Sgd")):
+            break
+        match = re.match(r"^Section\s+(\d+)\.\s*(.*)$", line)
+        if match:
+            number, rest = match.group(1), match.group(2)
+            head, body = split_heading(rest)
+            if number in act["headings"]:
+                head, body = act["headings"][number], rest
+            out.append(
+                {
+                    "number": number,
+                    "sort_key": int(number),
+                    "heading": head.strip(" .-–—"),
+                    "path": "",
+                    "text": body or rest,
+                    "url": act["url"],
+                }
+            )
+        elif out:
+            out[-1]["text"] += "\n" + line
+    return out
+
+
 class Command(BaseCommand):
-    help = "Download the Labor Code, PD 851 and MO 28 and write data/corpus.json (needs internet)."
+    help = "Download the labor laws and write data/corpus.json (needs internet)."
 
     def add_arguments(self, parser):
         parser.add_argument("--out", default=str(Path(settings.BASE_DIR) / "data" / "corpus.json"))
@@ -278,6 +331,13 @@ class Command(BaseCommand):
                     "url": MO28,
                     "articles": mo,
                 },
+                *(
+                    {
+                        **{k: act[k] for k in ("slug", "title", "citation", "short_label", "url")},
+                        "articles": parse_act(TextExtractor.lines_of(fetch(act["url"])), act),
+                    }
+                    for act in ACTS
+                ),
             ]
         }
         out = Path(options["out"])

@@ -1,0 +1,35 @@
+{% load static %}<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Batas{% endblock %} · Batas</title>
+  <meta name="description" content="{% block description %}Ask about Philippine labor law and get an answer that cites the Labor Code article it comes from.{% endblock %}">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+  <link rel="stylesheet" href="{% static 'core/site.css' %}">
+  <link rel="icon" href="{% static 'core/favicon.svg' %}" type="image/svg+xml">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <div class="wrap top__in">
+    <a class="brand" href="{% url 'qa:ask' %}"><span class="brand__mark" aria-hidden="true">§</span> Batas</a>
+    <nav aria-label="Main">
+      <a href="{% url 'qa:ask' %}"{% if request.resolver_match.url_name == 'ask' %} aria-current="page"{% endif %}>Ask</a>
+      <a href="{% url 'laws:index' %}"{% if request.resolver_match.app_name == 'laws' %} aria-current="page"{% endif %}>Browse the law</a>
+      <a href="{% url 'qa:about' %}"{% if request.resolver_match.url_name == 'about' %} aria-current="page"{% endif %}>How it works</a>
+    </nav>
+  </div>
+</header>
+<main id="main" class="wrap">
+{% block content %}{% endblock %}
+</main>
+<footer class="foot">
+  <div class="wrap">
+    <p><strong>Not legal advice.</strong> Batas quotes the law and explains it in plain words. For your specific case, ask the DOLE hotline 1349 or a lawyer.</p>
+    <p>Law text: Labor Code (PD 442, as amended) via ChanRobles; PD 851 and MO 28 via The LawPhil Project (Arellano Law Foundation). Philippine statutes are not subject to copyright (RA 8293, Sec. 176).</p>
+  </div>
+</footer>
+<script src="{% static 'core/app.js' %}" defer></script>
+</body>
+</html>

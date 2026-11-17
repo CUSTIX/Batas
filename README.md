@@ -3,6 +3,8 @@
 **Ask the Philippine Labor Code a question, get an answer that cites the article it comes from.**
 *Batas* is Filipino for "law".
 
+**Live demo:** https://batas-ph.onrender.com (free Render + Neon; the first question after a quiet spell can take a few seconds while the database wakes).
+
 Retrieval-augmented generation (RAG) over the Labor Code of the Philippines (PD 442, as amended),
 the 13th Month Pay Law (PD 851) and its rules, Memorandum Order No. 28, the 105-Day Expanded
 Maternity Leave Law (RA 11210) and the Paternity Leave Act (RA 8187). Questions in English,
